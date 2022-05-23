@@ -21,9 +21,18 @@ const getUserInfo = ()=>{
   return request({url : "/v2/admin/getUserInfo"})
 }
 
+/**
+ * 退出登录接口
+ * @returns {AxiosPromise}
+ */
+const logout = ()=>{
+  return request({url : "/v2/admin/logout", method : "POST"})
+}
+
 export default {
   login,
-  getUserInfo
+  getUserInfo,
+  logout
 }
 
 

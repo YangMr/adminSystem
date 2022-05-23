@@ -49,11 +49,11 @@ export default {
         const response = await this.$store.dispatch("handleLoginSubmit",this.loginForm)
         if(!response) return
 
-        const userInfo = await this.$store.dispatch("getUserInfo")
-        if(!userInfo) return
+        // const userInfo = await this.$store.dispatch("getUserInfo")
+        // if(!userInfo) return
 
         this.$message.success("登录成功")
-        this.$router.push("/layout")
+        this.$router.push("/")
       })
     }
   }
