@@ -8,10 +8,23 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
 import "./style/reset.css"
-
 import "./permission"
 
-console.log(router.getRoutes())
+Vue.config.productionTip = false;
+
+new Vue({
+  router,
+  store,
+  render: (h) => h(App),
+}).$mount('#app');
+
+
+
+
+
+
+
+
 
 /**
  *
@@ -34,18 +47,10 @@ console.log(router.getRoutes())
  *      供应商管理
  *      商品管理
  *      员工管理
- *      
+ *
  *
  *
  *
  *
  *
  * */
-
-Vue.config.productionTip = false;
-
-new Vue({
-  router,
-  store,
-  render: (h) => h(App),
-}).$mount('#app');
