@@ -1,57 +1,16 @@
 <template>
   <div class="container">
-    <el-form ref="searchForm" :inline="true" :model="searchForm">
-      <el-form-item prop="cardNum">
-        <el-input v-model.trim="searchForm.cardNum" placeholder="会员卡号"></el-input>
-      </el-form-item>
-      <el-form-item prop="name">
-        <el-input v-model.trim="searchForm.name" placeholder="会员姓名"></el-input>
-      </el-form-item>
-      <el-form-item prop="payType">
-        <el-select v-model.trim="searchForm.payType" placeholder="支付类型" style="width:110px;">
-          <el-option v-for="(item,index) in payType" :key="item.type" :label="item.name" :value="item.type"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item prop="birthday">
-        <el-date-picker value-format="yyyy-MM-dd" v-model.trim="searchForm.birthday" type="date" placeholder="出生日期"></el-date-picker>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="handleSearch">查询</el-button>
-        <el-button type="primary" >新增</el-button>
-        <el-button @click="handleReset">重置</el-button>
-      </el-form-item>
-    </el-form>
-
-    <el-table :data="memberList" border height="380" style="width: 100%">
-      <template v-for="(item,index) in column">
-        <el-table-column v-if="item.type && item.type !== 'action'" v-bind="item"></el-table-column>
-        <el-table-column v-else-if="!item.type" v-bind="item" ></el-table-column>
-        <el-table-column v-else-if="item.type === 'action'" v-bind="item">
-          <template slot-scope="scope">
-            <template v-for="(item,index) in item.buttons">
-              <el-button v-bind="item" @click="handleAction(item.action,scope.row)">{{item.text}}</el-button>
-            </template>
-          </template>
-        </el-table-column>
-      </template>
-    </el-table>
-
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="page"
-      :page-sizes="[1, 2, 5, 10]"
-      :page-size="size"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total">
-    </el-pagination>
+    <QueryForm ref="queryForm" :model="searchForm" :queryFormColumn="queryFormColumn" @handleAction="handleFormAction"></QueryForm>
+    <BaseTable  @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange" :page="page" :size="size" :total="total" :tableData="memberList" :column="tableColumn" @handleAction="handleTableAction"></BaseTable>
   </div>
 </template>
 
 <script>
-import Member from '../../api/member';
+import Member from '../../api/member'
 import format from "../../utils/format"
 import payType from "../../enmu/payType"
+import BaseTable from "../../components/BaseTable"
+import QueryForm from "../../components/QueryForm"
 export default {
   name: 'index',
   data() {
@@ -67,7 +26,7 @@ export default {
       },
       payType,
       memberList: [],
-      column : [
+      tableColumn : [
         {
           label : "序号",
           width : "60",
@@ -132,12 +91,57 @@ export default {
             }
           ]
         },
+      ],
+      queryFormColumn : [
+        {
+          type : "input",
+          prop : "cardNum",
+          placeholder : "会员卡号"
+        },
+        {
+          type : "input",
+          prop : "name",
+          placeholder : "会员姓名"
+        },
+        {
+          type : "select",
+          prop : "payType",
+          placeholder : "支付类型",
+          style : "width:110px",
+          payType
+        },
+        {
+          type : "date-picker",
+          prop : "birthday",
+          placeholder : "出生日期",
+          value_format : "yyyy-MM-dd"
+        },
+        {
+          type : "action",
+          buttons : [
+            {
+              type : "primary",
+              action : "query",
+              text : "查询"
+            },
+            {
+              type : "primary",
+              action : "add",
+              text : "新增"
+            },
+            {
+              action : "reset",
+              text : "重置"
+            }
+          ]
+        }
       ]
     };
   },
   created() {
     this.loadMemberList();
   },
+  components : {BaseTable,QueryForm},
   methods: {
     async loadMemberList() {
       const {count, rows} = await Member.getMemberList(this.page, this.size, this.searchForm);
@@ -157,14 +161,23 @@ export default {
       this.loadMemberList()
     },
     handleReset(){
-      this.$refs["searchForm"].resetFields()
+      this.$refs["queryForm"].handleReset()
+      // this.$refs["queryForm"].$refs['queryForm'].resetFields()
+      // this.$refs["searchForm"].resetFields()
       this.loadMemberList()
     },
-    handleAction(action,row){
-      action === 'delete' ? this.handleDelete(row.id) : this.handleOpenDialog()
+    handleFormAction(action){
+      console.log("===>",action)
+      if(action === 'query') return this.handleSearch()
+      if(action === 'add') return this.handleOpenDialog()
+      if(action === 'reset') return this.handleReset()
+    },
+    handleTableAction({action,row}){
+      if(action === 'delete') return this.handleDelete(row.id)
+      if(action === 'edit') return this.handleOpenDialog()
+      // action === 'delete' ? this.handleDelete(row.id) : this.handleOpenDialog()
     },
     handleDelete(id){
-      alert(id)
       this.$confirm('确认删除这条记录吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -179,7 +192,7 @@ export default {
       });
     },
     handleOpenDialog(){
-
+      alert("编辑")
     }
   }
 };
