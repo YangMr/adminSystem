@@ -24,7 +24,38 @@ const deleteSupplier = (id)=>{
   return request({url : `/v2/supplier/${id}` , method : "DELETE"})
 }
 
+/**
+ * 查询单个供应商接口
+ * @param id
+ * @returns {AxiosPromise}
+ */
+const findSupplier = (id)=>{
+  return request({url : `/v2/supplier/${id}`, method : "GET"})
+}
+
+/**
+ * 新增供应商接口
+ * @param data
+ * @returns {AxiosPromise}
+ */
+const addSupplier = (data)=>{
+  return request({url : `/v2/supplier`, method : "POST", data})
+}
+
+/**
+ * 编辑供应商接口
+ * @param id
+ * @param data
+ * @returns {AxiosPromise}
+ */
+const editSupplier = (id,data) => {
+  return request({url : `/v2/supplier/${id}`, method : "PUT", data})
+}
+
 export default {
   getSupplierList,
-  deleteSupplier
+  deleteSupplier,
+  findSupplier,
+  addSupplier,
+  editSupplier
 }

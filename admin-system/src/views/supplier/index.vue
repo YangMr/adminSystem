@@ -2,6 +2,7 @@
   <div class="container">
     <QueryForm ref="queryForm" @handleAction="handleFormAction" :model="searchForm" :queryFormColumn="queryFormColumn"></QueryForm>
     <BaseTable @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange" :page="page" :size="size" :total="total" :tableData="supplierList" :column="tableColumn" @handleAction="handleTableAction"></BaseTable>
+    <DiaLog ref="diaLogForm" @handleCloseDialog="handleCloseDialog" v-model="diaLogForm"  @handleDialogFormSubmit="handleDialogFormSubmit" :handleCloseDialog="handleCloseDialog" :diaLogFormColumn="diaLogFormColumn" :title="diaLogTitle" :visible="diaLogFormVisible" :rules="rules"></DiaLog>
   </div>
 </template>
 
@@ -9,10 +10,44 @@
 import BaseTable from "../../components/BaseTable"
 import QueryForm from '../../components/QueryForm'
 import Supplier from "../../api/supplier"
+import DiaLog from "../../components/DiaLog"
 export default {
   name: 'index',
   data(){
     return {
+      diaLogTitle : "",
+      diaLogFormVisible : false,
+      rules : {
+        name : [
+          {required : true, message : "供应商不能为空", trigger : "blur"}
+        ],
+        linkman : [
+          {required : true, message : "联系人不能为空", trigger : "blur"}
+        ]
+      },
+      diaLogFormColumn : [
+        {
+          type : "input",
+          label : "供应商名称",
+          prop : "name"
+        },
+        {
+          type : "input",
+          label : "联系人",
+          prop : "linkman"
+        },
+        {
+          type : "input",
+          label : "联系电话",
+          prop : "mobile"
+        },
+        {
+          type : "textarea",
+          label : "备注",
+          prop : "remark"
+        }
+      ],
+      diaLogForm : {},
       page : 1,
       size : 2,
       total : 0,
@@ -100,7 +135,7 @@ export default {
       ]
     }
   },
-  components : {BaseTable,QueryForm},
+  components : {BaseTable,QueryForm,DiaLog},
   created() {
     this.loadSupplierList()
   },
@@ -122,12 +157,12 @@ export default {
     },
     handleFormAction(action){
       if(action === 'query') return this.handleSearch()
-      if(action === 'add') return this.handleOpenDialog()
+      if(action === 'add') return this.handleOpenDialog("add")
       if(action === 'reset') return this.handleReset()
     },
     handleTableAction({action,row}){
       if(action === 'delete') return this.handleDelete(row.id)
-      if(action === 'edit') return this.handleOpenDialog()
+      if(action === 'edit') return this.handleOpenDialog("edit",row.id)
     },
     handleDelete(id){
       this.$confirm('确认删除这条记录吗?', '提示', {
@@ -148,8 +183,10 @@ export default {
         this.$message({ type: 'info', message: '已取消删除' });
       });
     },
-    handleOpenDialog(){
-      alert("编辑")
+    handleOpenDialog(type,id){
+      this.diaLogTitle = type === 'add' ? '供应商新增' : '供应商编辑'
+      if(type === 'edit') this.handleCircumference(id)
+      this.diaLogFormVisible = true
     },
     handleSizeChange(size){
       this.size = size
@@ -159,6 +196,47 @@ export default {
       this.page = page
       this.loadSupplierList()
     },
+    handleDialogFormSubmit(){
+      if(this.diaLogForm.id){
+        this.handleSubmitEdit()
+      }else{
+        this.handleSubmitAdd()
+      }
+    },
+    async handleSubmitEdit(){
+      try {
+        const response = await Supplier.editSupplier(this.diaLogForm.id,this.diaLogForm)
+        this.handleCloseDialog()
+        this.$message.success("编辑成功")
+        this.loadSupplierList()
+      }catch (e) {
+        console.log(e)
+        this.$message.error("编辑失败")
+      }
+    },
+    async handleSubmitAdd(){
+      try {
+        const response = await Supplier.addSupplier(this.diaLogForm)
+        this.handleCloseDialog()
+        this.$message.success("新增成功")
+        this.loadSupplierList()
+      }catch (e) {
+        console.log(e)
+        this.$message.error("新增失败")
+      }
+    },
+    handleCloseDialog(){
+      this.diaLogFormVisible = false
+    },
+    async handleCircumference(id){
+      try {
+        const response = await Supplier.findSupplier(id)
+        this.diaLogForm = response
+      }catch (e) {
+        console.log(e)
+        this.$message.error("查询失败")
+      }
+    }
   }
 };
 </script>

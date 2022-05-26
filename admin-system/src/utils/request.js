@@ -12,6 +12,12 @@ import store from "../store"
 // 导出message提示组件
 import { Message } from 'element-ui'
 
+// 引入auth
+import {removeToken} from "./auth"
+
+// 引入router
+import router from "../router"
+
 // 创建axios实例对象
 const service = axios.create({
   // 请求的公共接口地址， 如果配置了跨域，我们baseURL一般写的是跨域的代理名称
@@ -43,7 +49,16 @@ service.interceptors.response.use(function (response) {
     return response.data.msg
   }
 
-  // TODO token过期处理
+  // token过期处理
+  if(response.data.code === -1){
+    // 清空vuex里面的token和用户信息
+    store.commit("removeToken","")
+    store.commit("removeUserInfo","")
+    // 清空本地的token和用户信息
+    removeToken()
+    // 跳转到登录页
+    router.push("/login")
+  }
 
   // 错误信息提示
   _showErrorMessage(response.data.message)

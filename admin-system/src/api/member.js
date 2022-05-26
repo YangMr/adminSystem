@@ -24,7 +24,38 @@ const deleteMember = (id)=>{
   return request({url : `/v2/member/${id}` , method : "DELETE"})
 }
 
+/**
+ * 会员新增接口
+ * @param data
+ * @returns {AxiosPromise}
+ */
+const addMember = (data)=>{
+  return request({url : "/v2/member", method : "POST", data})
+}
+
+/**
+ * 查询单个会员接口
+ * @param id
+ * @returns {AxiosPromise}
+ */
+const findMember = (id)=>{
+  return request({url : `/v2/member/${id}`, method : "GET"})
+}
+
+/**
+ * 编辑会员接口
+ * @param id
+ * @param data
+ * @returns {AxiosPromise}
+ */
+const editMember = (id,data)=>{
+  return request({url : `/v2/member/${id}`, method : "PUT", data})
+}
+
 export default {
   getMemberList,
-  deleteMember
+  deleteMember,
+  addMember,
+  findMember,
+  editMember
 }
