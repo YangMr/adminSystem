@@ -4,7 +4,6 @@
     <BaseTable  @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange" :page="page" :size="size" :total="total" :tableData="memberList" :column="tableColumn" @handleAction="handleTableAction"></BaseTable>
 <!--    <DiaLog ref="dialogForm"  @handleDialogFormSubmit="handleDialogFormSubmit" :diaLogFormColumn="diaLogFormColumn" :title="dialogTitle" :visible="dialogFormVisible" :model="dialogForm" :rules="rules"></DiaLog>-->
     <DiaLog ref="dialogForm" @handleCloseDialog="handleResetDialogForm" :handleCloseDialog="handleResetDialogForm"  @handleDialogFormSubmit="handleDialogFormSubmit" :diaLogFormColumn="diaLogFormColumn" :title="dialogTitle" :visible="dialogFormVisible" v-model="dialogForm" :rules="rules"></DiaLog>
-    {{dialogForm}}
   </div>
 </template>
 

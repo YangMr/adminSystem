@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="text" id="ipt">
+<!--    <button id="btn">抢购</button>-->
+<!--    <div id="show">0</div>-->
+</body>
+</html>
+<script>
+  /**
+   *  节流： 在规定的时间内， 不管用户点击了多少次，我们最终只执行一次
+   *  防抖： 在规定的时间内， 不管用户点击了多少次，我们最终只执行最后一次
+   *
+   */
+
+  // btn.onclick = function (){
+    //   show.innerHTML = Number(show.innerHTML) + 1
+    // }
+
+    /**
+     * 节流方法   在规定的时候， 不管你点击了多少次， 我们始终只执行一次
+     */
+    function throttle(callback,wait){
+        // 上一次点击的时间
+        let lastTime = 0
+        return function (){
+          // 获取当前点击的时间
+          let nowTime = new Date().getTime()
+          // 判断当前点击的时候 - 上一次点击的时间 是否 大于 1 秒
+          if(nowTime - lastTime > wait){
+
+            callback()
+            // 把当前点击的时候 赋值给上一次的时间
+            lastTime = nowTime
+          }
+        }
+    }
+    /**
+     * 让数量加+1
+     */
+    // function increment(){
+    //   show.innerHTML = Number(show.innerHTML) + 1
+    // }
+    // btn.onclick = throttle(increment,1000)
+
+
+
+
+
+
+
+
+
+    //
+    // function a(){
+    //   return function (){
+    //     alert("123")
+    //   }
+    // }
+    // console.log(a())
+    // btn.onclick = a()
+
+    // console.log(a())
+    // console.log(a)
+
+    // btn.onclick = a
+
+    // btn.onclick = function (){
+    //   alert("123")
+    // }
+    // btn.onclick = a()  // undefined
+    // btn.onclick = undefined
+    // a() 调用方法 a 不加() 值的是方法本身
+    // a()
+    //
+    // console.log(a)
+
+    // btn1.onclick = a
+    //
+    // btn2.onclick = a()
+
+
+
+
+
+
+
+
+    function ajax(){
+      console.log(this.value)
+    }
+
+
+
+    // 防抖方法
+
+    function debounce(callback, delay){
+      let timer = null
+      return function (){
+        clearTimeout(timer)
+        timer = setTimeout(()=>{
+          callback.apply(this,arguments)
+        },delay)
+      }
+    }
+
+    ipt.oninput = debounce(ajax,1000)
+
+
+
+</script>

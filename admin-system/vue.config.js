@@ -32,6 +32,8 @@ module.exports = {
     }
   },
   // 关闭eslint代码质量检测
-  lintOnSave : false
+  lintOnSave : false,
+  // 配置项目打包时不产生.map后缀名的文件
+  productionSourceMap : false
 }
 

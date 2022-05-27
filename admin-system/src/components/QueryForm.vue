@@ -14,7 +14,7 @@
       </el-form-item>
       <el-form-item v-if="item.type === 'action'">
         <template v-for="(item,index) in item.buttons">
-          <el-button v-bind="item" @click="handleAction(item.action)">{{item.text}}</el-button>
+          <el-button v-bind="item" @click="throttle(item.action)">{{item.text}}</el-button>
         </template>
       </el-form-item>
     </template>
@@ -22,6 +22,9 @@
 </template>
 
 <script>
+import {throttle} from '../utils/utils'
+
+
 export default {
   name: 'QueryForm',
   props : {
@@ -35,6 +38,13 @@ export default {
     }
   },
   methods : {
+    throttle : _.throttle(function(action){
+      this.handleAction(action)
+    },1000,{
+      leading:true, //指定调用在节流开始前
+      trailing:false //指定调用在节流结束后,
+    }),
+
     handleAction(action){
       this.$emit("handleAction",action)
     },

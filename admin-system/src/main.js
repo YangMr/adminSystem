@@ -10,6 +10,9 @@ Vue.use(ElementUI);
 import "./style/reset.css"
 import "./permission"
 
+import _ from "lodash"
+Vue.prototype._ = _
+
 Vue.config.productionTip = false;
 
 new Vue({
