@@ -12,7 +12,7 @@ import request from "../utils/request"
  * @returns {AxiosPromise}
  */
 const getMemberList = (currentPage,pageSize,data = {})=>{
-  return request({url : `/v2/member/list/search/${currentPage}/${pageSize}`, method : "POST", data})
+  return request({url : `/member/list/search/${currentPage}/${pageSize}`, method : "POST", data})
 }
 
 /**
@@ -21,7 +21,7 @@ const getMemberList = (currentPage,pageSize,data = {})=>{
  * @returns {AxiosPromise}
  */
 const deleteMember = (id)=>{
-  return request({url : `/v2/member/${id}` , method : "DELETE"})
+  return request({url : `/member/${id}` , method : "DELETE"})
 }
 
 /**
@@ -30,7 +30,7 @@ const deleteMember = (id)=>{
  * @returns {AxiosPromise}
  */
 const addMember = (data)=>{
-  return request({url : "/v2/member", method : "POST", data})
+  return request({url : "/member", method : "POST", data})
 }
 
 /**
@@ -39,7 +39,7 @@ const addMember = (data)=>{
  * @returns {AxiosPromise}
  */
 const findMember = (id)=>{
-  return request({url : `/v2/member/${id}`, method : "GET"})
+  return request({url : `/member/${id}`, method : "GET"})
 }
 
 /**
@@ -49,7 +49,7 @@ const findMember = (id)=>{
  * @returns {AxiosPromise}
  */
 const editMember = (id,data)=>{
-  return request({url : `/v2/member/${id}`, method : "PUT", data})
+  return request({url : `/member/${id}`, method : "PUT", data})
 }
 
 export default {

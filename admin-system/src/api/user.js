@@ -10,7 +10,7 @@ import request from "../utils/request"
  * @returns {AxiosPromise}
  */
 const login = (data)=>{
-    return request({url : "/v2/admin/login", method : "POST", data})
+    return request({url : "/admin/login", method : "POST", data})
 }
 
 /**
@@ -18,7 +18,7 @@ const login = (data)=>{
  * @returns {AxiosPromise}
  */
 const getUserInfo = ()=>{
-  return request({url : "/v2/admin/getUserInfo"})
+  return request({url : "/admin/getUserInfo"})
 }
 
 /**
@@ -26,7 +26,7 @@ const getUserInfo = ()=>{
  * @returns {AxiosPromise}
  */
 const logout = ()=>{
-  return request({url : "/v2/admin/logout", method : "POST"})
+  return request({url : "/admin/logout", method : "POST"})
 }
 
 export default {

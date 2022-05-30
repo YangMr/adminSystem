@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <QueryForm ref="queryForm" @handleAction="handleFormAction" :model="searchForm" :queryFormColumn="queryFormColumn"></QueryForm>
-    <BaseTable @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange" :page="page" :size="size" :total="total" :tableData="supplierList" :column="tableColumn" @handleAction="handleTableAction"></BaseTable>
+    <BaseTable @handleChange="handleChange" :pager="!isDialog" @handleSizeChange="handleSizeChange" @handleCurrentChange="handleCurrentChange" :page="page" :size="size" :total="total" :tableData="supplierList" :column="tableColumn" @handleAction="handleTableAction"></BaseTable>
     <DiaLog ref="diaLogForm" @handleCloseDialog="handleCloseDialog" v-model="diaLogForm"  @handleDialogFormSubmit="handleDialogFormSubmit" :handleCloseDialog="handleCloseDialog" :diaLogFormColumn="diaLogFormColumn" :title="diaLogTitle" :visible="diaLogFormVisible" :rules="rules"></DiaLog>
   </div>
 </template>
@@ -13,6 +13,9 @@ import Supplier from "../../api/supplier"
 import DiaLog from "../../components/DiaLog"
 export default {
   name: 'index',
+  props : {
+    isDialog : Boolean
+  },
   data(){
     return {
       diaLogTitle : "",
@@ -49,7 +52,7 @@ export default {
       ],
       diaLogForm : {},
       page : 1,
-      size : 2,
+      size : 10,
       total : 0,
       supplierList : [],
       searchForm : {
@@ -60,7 +63,8 @@ export default {
       tableColumn : [
         {
           type : "index",
-          label : "序号"
+          label : "序号",
+          width : "60"
         },
         {
           label : "供应商名称",
@@ -138,6 +142,26 @@ export default {
   components : {BaseTable,QueryForm,DiaLog},
   created() {
     this.loadSupplierList()
+    if(this.isDialog){
+      this.tableColumn.splice(3)
+      this.queryFormColumn = [
+        {
+          type : "input",
+          prop : "name",
+          placeholder : "供应商名称"
+        },
+        {
+          type : "action",
+          buttons : [
+            {
+              type : "primary",
+              action : "query",
+              text : "查询"
+            }
+          ]
+        }
+      ]
+    }
   },
   methods : {
     async loadSupplierList(){
@@ -236,6 +260,9 @@ export default {
         console.log(e)
         this.$message.error("查询失败")
       }
+    },
+    handleChange(row){
+      this.$emit("handleChange",row)
     }
   }
 };

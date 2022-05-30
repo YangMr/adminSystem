@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <el-table :data="tableData" border height="380" style="width: 100%">
+    <el-table :data="tableData" border height="380" style="width: 100%" @current-change="handleChange">
       <template v-for="(item,index) in column">
         <el-table-column v-if="item.type && item.type !== 'action'" v-bind="item"></el-table-column>
         <el-table-column v-else-if="!item.type" v-bind="item" ></el-table-column>
@@ -67,6 +67,9 @@ export default {
     },
     handleCurrentChange(page){
       this.$emit("handleCurrentChange",page)
+    },
+    handleChange(row){
+     this.$emit("handleChange",row)
     }
   }
 };

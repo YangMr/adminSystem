@@ -12,7 +12,7 @@ import request from "../utils/request"
  * @returns {AxiosPromise}
  */
 const getStaffList = (currentPage,pageSize,data) => {
-  return request({url : `/v2/staff/list/search/${currentPage}/${pageSize}`,method : "POST", data})
+  return request({url : `/staff/list/search/${currentPage}/${pageSize}`,method : "POST", data})
 }
 
 /**
@@ -21,7 +21,7 @@ const getStaffList = (currentPage,pageSize,data) => {
  * @returns {AxiosPromise}
  */
 const deleteStaff = (id) => {
-  return request({url : `/v2/staff/${id}`, method : 'DELETE', })
+  return request({url : `/staff/${id}`, method : 'DELETE', })
 }
 
 /**
@@ -30,7 +30,7 @@ const deleteStaff = (id) => {
  * @returns {AxiosPromise}
  */
 const findStaff = (id) => {
-  return request({url : `/v2/staff/${id}`, method : 'GET', })
+  return request({url : `/staff/${id}`, method : 'GET', })
 }
 
 /**
@@ -39,7 +39,7 @@ const findStaff = (id) => {
  * @returns {AxiosPromise}
  */
 const addStaff = (data) => {
-  return request({url : '/v2/staff', method : 'POST', data})
+  return request({url : '/staff', method : 'POST', data})
 }
 
 /**
@@ -49,7 +49,7 @@ const addStaff = (data) => {
  * @returns {AxiosPromise}
  */
 const editStaff = (id,data) => {
-  return request({ url : `/v2/staff/${id}`, method : 'PUT', data})
+  return request({ url : `/staff/${id}`, method : 'PUT', data})
 }
 
 export default {

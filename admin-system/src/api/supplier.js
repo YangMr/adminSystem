@@ -12,7 +12,7 @@ import request from "../utils/request"
  * @returns {AxiosPromise}
  */
 const getSupplierList = (currentPage,pageSize,data = {})=>{
-  return request({url : `/v2/supplier/list/search/${currentPage}/${pageSize}`, method : "POST", data})
+  return request({url : `/supplier/list/search/${currentPage}/${pageSize}`, method : "POST", data})
 }
 
 /**
@@ -21,7 +21,7 @@ const getSupplierList = (currentPage,pageSize,data = {})=>{
  * @returns {AxiosPromise}
  */
 const deleteSupplier = (id)=>{
-  return request({url : `/v2/supplier/${id}` , method : "DELETE"})
+  return request({url : `/supplier/${id}` , method : "DELETE"})
 }
 
 /**
@@ -30,7 +30,7 @@ const deleteSupplier = (id)=>{
  * @returns {AxiosPromise}
  */
 const findSupplier = (id)=>{
-  return request({url : `/v2/supplier/${id}`, method : "GET"})
+  return request({url : `/supplier/${id}`, method : "GET"})
 }
 
 /**
@@ -39,7 +39,7 @@ const findSupplier = (id)=>{
  * @returns {AxiosPromise}
  */
 const addSupplier = (data)=>{
-  return request({url : `/v2/supplier`, method : "POST", data})
+  return request({url : `/supplier`, method : "POST", data})
 }
 
 /**
@@ -49,7 +49,7 @@ const addSupplier = (data)=>{
  * @returns {AxiosPromise}
  */
 const editSupplier = (id,data) => {
-  return request({url : `/v2/supplier/${id}`, method : "PUT", data})
+  return request({url : `/supplier/${id}`, method : "PUT", data})
 }
 
 export default {

@@ -2,7 +2,22 @@
  * @author YangLing
  * @date 2022/5/19 2:23 PM
  */
+//个插件可以读取输出文件夹（通常是dist）中的stats.json文件，把该文件可视化展现，生成代码分析报告，可以直观地分析打包出的文件有哪些，及它们的大小、占比情况、各文件 Gzipped 后的大小、模块包含关系、依赖项等，对应做出优化，从而帮助提升代码质量和网站性能
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 module.exports = {
+  configureWebpack : {
+    // 配置打包时忽略的一些文件
+    // externals : {
+    //   vue : "Vue",
+    //   "vue-router" : "VueRouter",
+    //   vuex : "Vuex",
+    //   "element-ui" : "ELEMENT",
+    //   lodash : "Lodash"
+    // },
+    plugins : [
+      new BundleAnalyzerPlugin()
+    ]
+  },
   // 解决打包之后白屏的问题
   publicPath : "./",
   // 配置服务器
